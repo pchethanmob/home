@@ -6,24 +6,22 @@ tags:
   - REST 
   - API
   - Design
-banner: ./defence-against-the-dark-arts.jpg
 ---
-
 In the context of web services, the term API almost always refers to REST API. It is at the heart of most cloud services we see today. Creation, maintenance, and evolution of REST APIs is one of the most important design activities in web service development.
 
 For something that is so ubiquitous, there are countless articles, videos which are inaccurate and contradicting. To this day, Roy Fielding’s dissertation[1] and his blog[2] serve as the only authoritative references. The good thing is that both the dissertation and blog are easy to read and understand.
 
 This is an aggregation of my notes from reading these references. I have written it as a note to myself. But I hope its useful to you.
 
-## Prerequisite
+### Prerequisite
 You have already read of REST, its constraints and have designed/implemented a few APIs.
 
-## Outline
+### Outline
 - Briefly state and analyse REST constraints
 - Their benefits,
 - Reasons behind their inclusion.
 
-## 6 Constraints
+### 6 Constraints
 REST is an architectural style for designing *communication* for network-based application software.
 
 It is an aggregation of 6 architectural styles, which, together, synergistically provide internet scale to any network based application, by powering the communication between components.
@@ -35,16 +33,15 @@ It is an aggregation of 6 architectural styles, which, together, synergistically
 - Cache +
 - Uniform Interface
 
-<br/>
 
-## Five Network Based Styes
+
+### Five Network Based Styes
 Roy Fielding chose 5 network-based architectural styles out of the many that he evaluated for their merits and demerits.
 
 ![](./restimages/stylesindissert.png)
 
 Brief description of styles:
-1. Client-Server (CS):
-    
+1. Client-Server (CS):    
     Separation of concerns — Client is concerned with UI & everything else is a concern of server.
 Server provides services on request.
 
@@ -57,7 +54,7 @@ Server provides services on request.
     - Multiple systems could be layered between client and server. An arrangement of systems in a unix pipe like fashion could lead to feature rich systems due to composability similar that of unix.
     - Systems participating in data path help with security and many rich transformation features (firewalls, traffic inspectors, parental controls etc)
     - Systems participating in routing help with scale (proxies and gateways)
-    <br/>
+    
     
 1. Code-on-demand (COD)
     
@@ -70,24 +67,18 @@ Server provides services on request.
 _(I urge you to read further from Section 3 of [1] and the literature from where they are sourced [3].)_
 
 
-### Benefits
+#### Benefits
 R. Fielding summarises his evaluation of individual styles and their combinations against various metrics in Table 3–6 of [1] (captured below). 
-
 ![](./restimages/evaluation.png)
 
 _Source: Table 3–6 of [1]_
 
-<br/>
 The highlighted row **LCODC$SS** is evaluation for combination of five styles listed above: LS+COD+CS+S+$. The + and - indicate pros and cons which are described in other parts of [1]. For convenience, I have expanded the row into below table replacing the plusses and minuses with what they stand for. This provides a clearer perspective of contribution of individual styles towards the overall benefit.    
-<br/>
 
 **Pros:**
-<br/>
 ![](./restimages/restpros.png)
 
-<a name="cons"></a>
 **Cons:**
-<br/>
 ![](./restimages/restcons.png)
 
 With this perspective, it becomes clear as to what we stand to gain or lose if an individual style were used or not used. For example - 
@@ -97,43 +88,41 @@ With this perspective, it becomes clear as to what we stand to gain or lose if a
 - Payloads are encrypted
 - There is a single URL with action specified in payload
 
-<br/>
 
-<a name="influences"></a>
-## Influences of LCODC$SS styles on Interface Design
+### Influences of LCODC$SS styles on Interface Design
 
 ![](./restimages/5stylespath.png)
 
-<br/>
+
 Each style induces a certain requirement on the server API interface.
 
 ![](./restimages/stylereqs.png)
 
-<br/>
 
-## Uniform Interface
-### 'Uniform'?
+
+### Uniform Interface
+#### 'Uniform'?
 These above requirements from LCODC$SS can be met while designing the interfaces in different ways by individuals/companies with varying degrees of commonality. REST proposes a ‘common set of constraints’ that address these requirements, while also providing additional benefits. This commonality makes all interfaces *'Uniform'*.
 
-### Goals
+#### Goals
 IMO, from [1] and [2], it seems that uniform interface constraints address below goals.
 
 1. Satisfying the needs/not violating the constraints of other styles (See previous section)
 1. Provide Data Encapsulation
 1. Bringing evolvability from browser-HTML-server success story. (See [this](https://www.ics.uci.edu/~fielding/pubs/dissertation/evaluation.htm#sec_6_1))
 
-<br/>
 
-### Four Interface Constraints
+
+#### Four Interface Constraints
 REST is defined by four interface constraints
 * Identification of resources;
 * Manipulation of resources through representations
 * Self-descriptive messages; and,
 * Hypermedia as the engine of application state
 
-<br/>
 
-#### Resource 
+
+##### Resource 
 A REST API is accessor or manipulator of resource. 
 From [1]
 > The key abstraction of information in REST is a resource. Any information that can be named can be a resource
@@ -150,18 +139,18 @@ Examples:
 
 ![](./restimages/resource_facade.png)
 
-<br/>
 
-#### Identification of resources
+
+##### Identification of resources
 The need of clients to reference and access resources, implies that resources have to be identified uniquely across the web. 
 
 REST chooses Uniform Resource Identifiers (URL,URNs) for this.
 
 Why? - Because cache and layered systems styles necessitate a uniformity in addressing. See [influences above](https://pchethan.github.io/2020/07/19/REST.html#influences).
 
-<br/>
 
-#### Representations and Data Encapsulation
+
+##### Representations and Data Encapsulation
 
 Roy Fielding discusses data encapsulation problem in Section 5.2.1 [1]
 It is addressed by using the abstractness and indirection provided by resources.
@@ -170,19 +159,20 @@ A representation is a sequence of bytes, which (not surprisingly) represents a r
 
 Example: A hospital may have an 'Appointment' resource for consulting with doctors. It may contain start time, end time, doctor's name/id, consulting room name etc. But a more complex data structure may be behind an appointment with references to doctor's calendar, etc. 
 
-<br/>
 
-#### Self-descriptive messages
+
+##### Self-descriptive messages
 Layered Systems and Statelessness styles necessitate ‘self-descriptive messages’. (See [influences above](https://pchethan.github.io/2020/07/19/REST.html#influences).)
 
-<br/>
 
-#### Hypermedia as the engine of application state
+
+##### Hypermedia as the engine of application state
 - or HATEOAS. 
 
-<br/>
 
-## HATEOAS
+* * *
+
+### HATEOAS
 
 HATEOAS wasn't described until [2]. 
 
@@ -207,7 +197,7 @@ Intention of HATEOAS is to achieve the same success with REST. Broadly, the cont
 
 See [2] for more details
 
-### HATEOAS Adoption
+#### HATEOAS Adoption
 There isn’t a lot of adoption of HATEOAS. 
 
 From [1]
@@ -217,7 +207,7 @@ Many believe that they are not building APIs for web scale or for the longitivit
 
 I believe the benefits are not only for projects like Atom, but are also for all platforms of medium to large size.
 
-### Loose Coupling Benefits
+#### Loose Coupling Benefits
 Lets consider a service with 200 APIs. Lets consider that the organization which is providing this service has multiple tenants and multiple client per tenant.
 
 Below diagram show how complex it would be to undertake a change in server, without resorting to API versioning and adding clients with intelligence to be compatible with the migration process.
@@ -234,12 +224,12 @@ Contrast this with the HATEOAS approach
 
 An additional indirection gives return on investment in the evolution of servers, even though it seems overly complex to fetch just one URL.
 
-### Common Vocabulary Benefits
+#### Common Vocabulary Benefits
 Scaling clients (More client variants/choices) without server’s knowledge.
 
 Browser-HTML-Server and client-EMail-SMTP Server are good examples.
 
-### Disadvantages
+#### Disadvantages
 There is an efficiency trade-off. (See [contributions above](https://pchethan.github.io/2020/07/19/REST.html#cons)
 
 Dissertation:
@@ -249,7 +239,7 @@ Even though the above statement is about the server’s needs, it applies equali
 
 If a business intends to support heterogenous clients varying highly with CPU, memory and software capabilities, this trade-off could prove expensive.
 
-## Conclusion
+### Conclusion
 Although Roy Fielding does not agree to the idea calling an API as RESTful unless all constraints are applied — there are significant benefits to be gained from partial adoption.
 
 I hope that this post provides some information/insight to
@@ -259,7 +249,7 @@ I hope that this post provides some information/insight to
 - Compare against alternatives
 
 
-## References
+### References
 [1] [Roy Fielding’s dissertation](https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm)
 
 [2] [Roy Fielding’s blog on REST](https://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven)
