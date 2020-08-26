@@ -190,6 +190,7 @@ The transaction manager associated with PurchaseOTPNotifierOverSMS does what it 
 
 If sending SMS fails, sending email is attempted. If the reason for SMS failure was an &#39;Invalid number&#39;, the transaction is marked as failed immediately.
 
+```java
     public class OneTimePasswordConfirmationManager implements IOperationManager {
         @Override
         public void onInitiate() throws Exception {
@@ -270,13 +271,14 @@ If sending SMS fails, sending email is attempted. If the reason for SMS failure 
             }
         }
     }
-
+```
 
 
 ##### Order Failure Example
 
 An e-commerce order example. Wallet credit is reversed when delivery scheduler returns with error.
 
+```java
     public class OrderManager implements IOperationManager {
       @Override
       public void onInitiate() throws Exception {
@@ -347,8 +349,7 @@ An e-commerce order example. Wallet credit is reversed when delivery scheduler r
       }
       private class ReverseWalletCreditChildHandler { }
     }
-
-
+```
 
 
 ### Design Benefits
