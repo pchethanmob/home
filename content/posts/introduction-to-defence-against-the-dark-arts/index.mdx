@@ -1,37 +1,268 @@
 ---
-title: Introduction to "Defence against the Dark Arts"
-date: 2019-11-07
+title: REST - A closer look
+date: 2020-07-19
 description: Defence Against the Dark Arts (abbreviated as DADA) is a subject taught at Hogwarts School of Witchcraft and Wizardry and Ilvermorny School of Witchcraft and Wizardry. In this class, students study and learn how to defend themselves against all aspects of the Dark Arts, including dark creatures, curses, hexes and jinxes (dark charms), and duelling.
 tags:
-  - Tutorial
-  - Dark Arts
+  - REST 
+  - API
+  - Design
 banner: ./defence-against-the-dark-arts.jpg
 ---
 
-Thestral dirigible plums, Viktor Krum hexed memory charm Animagus Invisibility Cloak three-headed Dog. Half-Blood Prince Invisibility Cloak cauldron cakes, hiya Harry! Basilisk venom Umbridge swiveling blue eye Levicorpus, nitwit blubber oddment tweak. Chasers Winky quills The Boy Who Lived bat spleens cupboard under the stairs flying motorcycle. Sirius Black Holyhead Harpies, you’ve got dirt on your nose. Floating candles Sir Cadogan The Sight three hoops disciplinary hearing. Grindlewald pig’s tail Sorcerer's Stone biting teacup. Side-along dragon-scale suits Filch 20 points, Mr. Potter.
+In the context of web services, the term API almost always refers to REST API. It is at the heart of most cloud services we see today. Creation, maintenance, and evolution of REST APIs is one of the most important design activities in web service development.
 
-Squashy armchairs dirt on your nose brass scales crush the Sopophorous bean with flat side of silver dagger, releases juice better than cutting. Full moon Whomping Willow three turns should do it lemon drops. Locomotor trunks owl treats that will be 50 points, Mr. Potter. Witch Weekly, he will rise again and he will come for us, headmaster Erumpent horn. Fenrir Grayback horseless carriages ‘zis is a chance many would die for!
+For something that is so ubiquitous, there are countless articles, videos which are inaccurate and contradicting. To this day, Roy Fielding’s dissertation[1] and his blog[2] serve as the only authoritative references. The good thing is that both the dissertation and blog are easy to read and understand.
 
-![Potions Class](./potions.jpg)
+This is an aggregation of my notes from reading these references. I have written it as a note to myself. But I hope its useful to you.
 
-Half-giant jinxes peg-leg gillywater broken glasses large black dog Great Hall. Nearly-Headless Nick now string them together, and answer me this, which creature would you be unwilling to kiss? Poltergeist sticking charm, troll umbrella stand flying cars golden locket Lily Potter. Pumpkin juice Trevor wave your wand out glass orbs, a Grim knitted hats. Stan Shunpike doe patronus, suck his soul Muggle-Born large order of drills the trace. Bred in captivity fell through the veil, quaffle blue flame ickle diddykins Aragog. Yer a wizard, Harry Doxycide the woes of Mrs. Weasley Goblet of Fire.
+## Prerequisite
+You have already read of REST, its constraints and have designed/implemented a few APIs.
 
-## This is a secondary heading
+## Outline
+- Briefly state and analyse REST constraints
+- Their benefits,
+- Reasons behind their inclusion.
 
-Exume lumos protego leviosa. Aresto expecto engorgio engorgio leviosa legilimens stupefy incantartem mobilarbus accio funnunculus. Serpensortia locomotor incarcerous aguamenti colloportus. Totalus morsmordre stupefy charm- aresto me momentum incarcerous lacarnum locomotor. Revelio relashio veritaserum impedimenta expecto quietus. Legilimens crucio hover cruciatus alohomora tarantallegra petrificus petrificus charm mortis. Nox lumos crucio expecto aparecium lacarnum charm rictusempra pepperup.
+## 6 Constraints
+REST is an architectural style for designing *communication* for network-based application software.
 
----
+It is an aggregation of 6 architectural styles, which, together, synergistically provide internet scale to any network based application, by powering the communication between components.
 
-Sectumsempra aresto exume reducio momentum tarantallegra patronum. Totalus amortentia momentum mortis quietus evanesco. Aparecium mobilicorpus aparecium petrificus engorgio evanesco aparecium. Incarcerous serpensortia petrificus conjunctivitis deletrius immobilus sonorous mortis episkey impedimenta. Immobilus lacarnum totalus protean. Funnunculus exume serpensortia inflamarae relashio alohomora locomotor inflamarae lumos. Skele-gro totalus.
+- Client-Server +
+- Statelessness +
+- Layered Systems +
+- Code-on-demand +
+- Cache +
+- Uniform Interface
 
-## Another secondary heading
+<br/>
 
-### Third heading level
+## Five Network Based Styes
+Roy Fielding chose 5 network-based architectural styles out of the many that he evaluated for their merits and demerits.
 
-Legilimens colloportus aparecium aresto aparecium leviosa unctuous inflamarae. Quietus mobilarbus incarcerous stupefy confundus leviosa. Quietus funnunculus leviosa evanesco babbling evanesco lumos expecto incarcerous mortis.
+![](./restimages/stylesindissert.png)
 
-Reparo reparo alohomora vow. Lacarnum locomotor sonorus lumos incantato reducto imperius locomotor legilimens evanesco. Locomotor patronum stupefy lumos scourgify lacarnum. Portus charm inflamarae leviosa stupefy. Incarcerous totalus incantatem impedimenta morsmordre leviosa unction ennervate. Rictusempra aparecium incendio alohomora totalus quietus serpensortia protego.
+Brief description of styles:
+1. Client-Server (CS):
+    
+    Separation of concerns — Client is concerned with UI & everything else is a concern of server.
+Server provides services on request.
 
-Mobilicorpus reducto liberacorpus crucio. Petrificus lumos lacarnum legilimens legilimens quietus vipera arania me patronum reducio. Episkey reducio quietus mobilicorpus fidelius aparecium. Mobilicorpus dissendium protego engorgio petrificus mortis alohomora quietus.
+1. Statelessness: (S)
 
-Sonorus tarantallegra leviosa wingardium finite stupefy.
+    State per client occupies space in memory and disk which are at a premium on servers. This prevents scaling. Interfaces are designed such that server never holds any data for future requests. Requests and responses therefore include all the information required.
+
+1. Layered Systems (LS)
+    
+    - Multiple systems could be layered between client and server. An arrangement of systems in a unix pipe like fashion could lead to feature rich systems due to composability similar that of unix.
+    - Systems participating in data path help with security and many rich transformation features (firewalls, traffic inspectors, parental controls etc)
+    - Systems participating in routing help with scale (proxies and gateways)
+    <br/>
+    
+1. Code-on-demand (COD)
+    
+    Download code that has the ‘know-how’ and run on client. The ‘know-how’ could be understanding server responses, rendering them and even knowing how to interact with server and get responses. Example: JS based web app.
+
+1. Cache ($)
+    
+    Cache provides interface of a server and consumes interface of a server and provides caching in a transparent way. It can be part of layered systems or could be just a library at client or any layered systems
+    
+_(I urge you to read further from Section 3 of [1] and the literature from where they are sourced [3].)_
+
+
+### Benefits
+R. Fielding summarises his evaluation of individual styles and their combinations against various metrics in Table 3–6 of [1] (captured below). 
+
+![](./restimages/evaluation.png)
+
+_Source: Table 3–6 of [1]_
+
+<br/>
+The highlighted row **LCODC$SS** is evaluation for combination of five styles listed above: LS+COD+CS+S+$. The + and - indicate pros and cons which are described in other parts of [1]. For convenience, I have expanded the row into below table replacing the plusses and minuses with what they stand for. This provides a clearer perspective of contribution of individual styles towards the overall benefit.    
+<br/>
+
+**Pros:**
+<br/>
+![](./restimages/restpros.png)
+
+<a name="cons"></a>
+**Cons:**
+<br/>
+![](./restimages/restcons.png)
+
+With this perspective, it becomes clear as to what we stand to gain or lose if an individual style were used or not used. For example - 
+- Cache is not used
+- APIs have session
+- Server API response is in HTML
+- Payloads are encrypted
+- There is a single URL with action specified in payload
+
+<br/>
+
+<a name="influences"></a>
+## Influences of LCODC$SS styles on Interface Design
+
+![](./restimages/5stylespath.png)
+
+<br>
+Each style induces a certain requirement on the server API interface.
+
+![](./restimages/stylereqs.png)
+
+<br/>
+
+## Uniform Interface
+### 'Uniform'?
+These above requirements from LCODC$SS can be met while designing the interfaces in different ways by individuals/companies with varying degrees of commonality. REST proposes a ‘common set of constraints’ that address these requirements, while also providing additional benefits. This commonality makes all interfaces *'Uniform'*.
+
+### Goals
+IMO, from [1] and [2], it seems that uniform interface constraints address below goals.
+
+1. Satisfying the needs/not violating the constraints of other styles (See previous section)
+1. Provide Data Encapsulation
+1. Bringing evolvability from browser-HTML-server success story. (See [this](https://www.ics.uci.edu/~fielding/pubs/dissertation/evaluation.htm#sec_6_1))
+
+<br/>
+
+### Four Interface Constraints
+REST is defined by four interface constraints
+* Identification of resources;
+* Manipulation of resources through representations
+* Self-descriptive messages; and,
+* Hypermedia as the engine of application state
+
+<br/>
+
+#### Resource 
+A REST API is accessor or manipulator of resource. 
+From [1]
+> The key abstraction of information in REST is a resource. Any information that can be named can be a resource
+
+An abstraction of some information is similar to an interfaces/APIs in a programming languages. An abstraction of a larger information space, is similar to a façade interface.
+
+So the benefits of resource are clear
+* least coupling
+* late binding
+* conceptual conciseness, 
+* efficiency of communication 
+
+Examples:
+
+![](./restimages/resource_facade.png)
+
+<br/>
+
+#### Identification of resources
+The need of clients to reference and access resources, implies that resources have to be identified uniquely across the web. 
+
+REST chooses Uniform Resource Identifiers (URL,URNs) for this.
+
+Why? - Because cache and layered systems styles necessitate a uniformity in addressing. See [influences above](https://pchethan.github.io/2020/07/19/REST.html#influences).
+
+<br/>
+
+#### Representations and Data Encapsulation
+
+Roy Fielding discusses data encapsulation problem in Section 5.2.1 [1]
+It is addressed by using the abstractness and indirection provided by resources.
+
+A representation is a sequence of bytes, which (not surprisingly) represents a resource. It is made up of data and meta-data associated with the resource. Due to the abstractness, a representation is derived by applying a transformation from raw data. There by, data encapsulation is achieved.
+
+Example: A hospital may have an 'Appointment' resource for consulting with doctors. It may contain start time, end time, doctor's name/id, consulting room name etc. But a more complex data structure may be behind an appointment with references to doctor's calendar, etc. 
+
+<br/>
+
+#### Self-descriptive messages
+Layered Systems and Statelessness styles necessitate ‘self-descriptive messages’. (See [influences above](https://pchethan.github.io/2020/07/19/REST.html#influences).)
+
+<br/>
+
+#### Hypermedia as the engine of application state
+- or HATEOAS. 
+
+<br/>
+
+## HATEOAS
+
+HATEOAS wasn't described until [2]. 
+
+The goal of HATEOAS is *evolability* - similar to one achieved browser-HTML-server success story. 
+
+*Browser-HTML-server aka Hypertext Web*: A user visits a site and navigates as he/she chooses. A user always starts from home page, optionally logs in, navigates as per his/her needs to finish a task. The developers of the site are free to change the navigation structure of the site at will, without breaking anything and without causing any inconvenience to user.
+
+This gives a high level of independent evolvability to the server. A server can
+
+* Change URI structure
+* Add/remove resources
+* Change representations
+* Remove relationships between resources
+
+Intention of HATEOAS is to achieve the same success with REST. Broadly, the contraints are:
+
+1. Loose Coupling: 
+    Clients should be able to start with a bookmark URI and navigate resource heirarchy/model through URIs provided by server responses. Client is coupled with only the initial URI or few URIs. Server is free to change the resource namespace.
+
+1. Common Vocabulary: 
+    Clients must understand reponses and be able to construct requests by an understanding of media-type that is shared with clients beforehand (For e.g., a clients knows how to render text/html and client knows how to make form submissions). That is client and server have a common vocabulary, that may be domain agnostic or domain specific. So, it is possible that the media type could be standardised fully (e.g., Atom) or partially (HAL)
+
+See [2] for more details
+
+### HATEOAS Adoption
+There isn’t a lot of adoption of HATEOAS. 
+
+From [1]
+>REST is software design on the scale of decades: every detail is intended to promote software longevity and independent evolution
+
+Many believe that they are not building APIs for web scale or for the longitivity of decades and may never see returns.
+
+I believe the benefits are not only for projects like Atom, but are also for all platforms of medium to large size.
+
+### Loose Coupling Benefits
+Lets consider a service with 200 APIs. Lets consider that the organization which is providing this service has multiple tenants and multiple client per tenant.
+
+Below diagram show how complex it would be to undertake a change in server, without resorting to API versioning and adding clients with intelligence to be compatible with the migration process.
+
+It is more of a problem for native clients, than web clients which are more dynamic (COD style) 
+
+API versioning with version in URL would mean that the client entirely switches to a new version with a base url containing new version. This prevents partial evolution and may introduce duplication of code. 
+
+![](./restimages/3clients_200apis.png)
+
+Contrast this with the HATEOAS approach
+
+![](./restimages/3clients_200apis_hateoas.png)
+
+An additional indirection gives return on investment in the evolution of servers, even though it seems overly complex to fetch just one URL.
+
+### Common Vocabulary Benefits
+Scaling clients (More client variants/choices) without server’s knowledge.
+
+Browser-HTML-Server and client-EMail-SMTP Server are good examples.
+
+### Disadvantages
+There is an efficiency trade-off. (See [contributions above](https://pchethan.github.io/2020/07/19/REST.html#cons)
+
+Dissertation:
+>Uniform interface degrades efficiency, since information is transferred in a standardized form rather than one which is specific to an application’s needs. The REST interface is designed to be efficient for large-grain hypermedia data transfer, optimizing for the common case of the Web, but resulting in an interface that is not optimal for other forms of architectural interaction
+
+Even though the above statement is about the server’s needs, it applies equality to clients needs. To a server, all clients and their needs are equal.
+
+If a business intends to support heterogenous clients varying highly with CPU, memory and software capabilities, this trade-off could prove expensive.
+
+## Conclusion
+Although Roy Fielding does not agree to the idea calling an API as RESTful unless all constraints are applied — there are significant benefits to be gained from partial adoption.
+
+I hope that this post provides some information/insight to
+- Designing API to achieve benefits that matter in the context of your application/domain
+- Evaluate existing REST APIs
+- Qualitify what is gained or lost when a constraint is used/not used.
+- Compare against alternatives
+
+
+## References
+[1] [Roy Fielding’s dissertation](https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm)
+
+[2] [Roy Fielding’s blog on REST](https://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven)
+
+[3] [References of dissertation](https://www.ics.uci.edu/~fielding/pubs/dissertation/references.htm)
+
