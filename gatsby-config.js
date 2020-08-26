@@ -7,7 +7,18 @@ const shouldAnalyseBundle = process.env.ANALYSE_BUNDLE
 module.exports = {
   pathPrefix: "/home",
   siteMetadata: {
-    siteTitleAlt: `Minimal Blog - Gatsby Theme`,
+    // Used for the title template on pages other than the index site
+    siteTitle: `Chethan Palakshamurthy`,
+    // Default title of the page
+    siteTitleAlt: `Chethan Palakshamurthy`,
+    // Can be used for e.g. JSONLD
+    siteHeadline: `Chethan Palakshamurthy`,
+    // Will be used to generate absolute URLs for og:image etc.
+    siteUrl: `https://pchethan.github.io`,
+    // Used for SEO
+    siteDescription: ``,
+    // Will be set on the <html /> tag
+    siteLanguage: `en`
   },
   plugins: [
     {
@@ -26,12 +37,8 @@ module.exports = {
         ],
         externalLinks: [
           {
-            name: `Twitter`,
-            url: `https://twitter.com/lekoarts_de`,
-          },
-          {
-            name: `Instagram`,
-            url: `https://www.instagram.com/lekoarts.de/`,
+            name: `LinkedIn`,
+            url: `https://www.linkedin.com/in/pchethan`,
           },
         ],
       },
